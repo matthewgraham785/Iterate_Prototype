@@ -28,7 +28,15 @@ I explored carrying the player through trigger-based parenting and then a separa
 
 I asked Codex to restore the obstacle movement directly. The script retains a compatibility attribute for the temporarily renamed direction field so existing Inspector values can be preserved. This work helped distinguish moving an obstacle from making the player travel with it; carrying needs its own detection and movement logic.
 
-My saved scene still has two disabled component references to the deleted carry script. Removing those missing components in Unity remains a cleanup task.
+The leftover carry components have now been removed from my saved scene, along with the cones' experimental trigger colliders and Rigidbodies.
+
+## Camera and fall recovery
+
+I've adjusted the course camera's distance, shoulder offset, vertical arm length, field of view, and angle override as part of improving the view of the obstacles. The saved camera distance is 4.5 and the field of view is 55. I still need to record how the revised framing feels during traversal.
+
+I've also added [PlayerRespawn.cs](Assets/Synty/Scripts/PlayerRespawn.cs). It saves the player's starting position and rotation, then restores them if the player falls below Y = -10. It temporarily disables the Character Controller while repositioning the player. This gives the course a basic fall-recovery mechanism without adding checkpoints yet.
+
+I corrected a mistyped `private` keyword and a missing closing brace after asking for help identifying the syntax errors. The respawn script does not reset the movement controller's stored falling velocity; repeat falls and landing behavior still need testing in Unity.
 
 ## How I'm learning
 
@@ -40,7 +48,7 @@ I want to be honest about that process. I distinguish between work I do myself, 
 
 - I'll test and tune the vertical arch movement.
 - I'll test and tune the configured horizontal cone movement.
-- I'll remove the leftover missing carry components from the scene.
+- I'll test the revised camera framing and fall recovery, including repeated falls.
 - I'll continue developing the choice between easier and harder routes.
 - Later, I'll decide what player behavior to record and how it should affect a subsequent run.
 
