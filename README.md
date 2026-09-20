@@ -1,35 +1,37 @@
 # ITERATE
 
-An eight-week solo Unity 3D platformer by Matthew Graham.
+I'm building ITERATE as an eight-week solo Unity 3D platformer. My goal is to create a level that feels like a machine-learning training environment, with choices that eventually influence a later run.
 
-## Concept
+## My concept
 
-The level is presented as a machine-learning training environment. Players choose between an easier route and a difficult route, which eventually merge. The intended later system will track player behavior and adapt a subsequent run. This framing does not establish that a trained machine-learning model has been implemented.
+I give the player a choice between an easier route and a more difficult route. Those routes eventually merge. I plan to track player behavior and use that information to adapt a subsequent run. That system is still planned; I have not established a working trained machine-learning model in this project.
 
-## Current progress
+## My current progress
 
-Matthew reports a working custom mannequin, Starter Assets third-person movement, an expanded ProBuilder greybox, circular platforms, stairs, narrow traversal, an arch/tube obstacle, cones, and merging routes. These gameplay elements have not been independently verified in Play mode during this review.
+My current foundation includes a working custom mannequin, Starter Assets third-person movement, and an expanded ProBuilder greybox. I have circular platforms, stairs, narrow traversal, an arch/tube obstacle, cones, and routes that merge. This is the progress I've described during development; Codex has not independently verified it in Play mode.
 
-The first custom C# task is a moving obstacle: vertical motion for the arch, followed by horizontal motion for two cones. The script exists at `Assets/Synty/Scripts/MovingObstacle.cs`, not the initially requested `Assets/Scripts/MovingObstacle.cs` path.
+My first custom C# task is to move the arch vertically. Once that works, I want to apply the same concept to two cones moving horizontally. My script is at `Assets/Synty/Scripts/MovingObstacle.cs`. I originally referred to `Assets/Scripts/MovingObstacle.cs`, but that isn't its actual location.
 
-## Opening the project
+## How I open and check the project
 
-1. Add this root folder to Unity Hub.
-2. Open with the editor version recorded in `ProjectSettings/ProjectVersion.txt`: `6000.4.0f1` at the time of inspection.
-3. Allow Unity to import assets and resolve the packages in `Packages/manifest.json` and the existing package lock file.
-4. Select the intended working scene before testing. Saved scenes include `Assets/ITERATE_Prototype.unity`, `Assets/ITERATE_Greybox_01.unity`, and `Assets/ITERATE_Greybox_03.unity`; the active working scene is not yet confirmed.
-5. Check the Console and enter Play mode for the behavior under review.
+1. I add the project root folder to Unity Hub.
+2. I use the editor version recorded in `ProjectSettings/ProjectVersion.txt`: `6000.4.0f1` at the time of inspection.
+3. I allow Unity to import assets and resolve the dependencies in `Packages/manifest.json` and the package lock file.
+4. I select my working scene before testing. My saved scenes include `Assets/ITERATE_Prototype.unity`, `Assets/ITERATE_Greybox_01.unity`, and `Assets/ITERATE_Greybox_03.unity`. I still need to confirm the active scene in this review.
+5. I check the Console and use Play mode to test the specific behavior I'm working on.
 
-The inspected manifest includes Starter Assets-related input support through Input System, Cinemachine, ProBuilder, and Universal Render Pipeline dependencies. The saved build scene list currently enables `Assets/Scenes/SampleScene.unity`; choosing the release scene remains a later task.
+My project includes Input System, Cinemachine, ProBuilder, and Universal Render Pipeline dependencies. My saved build scene list currently enables `Assets/Scenes/SampleScene.unity`, so I still need to select and verify the intended scene before preparing a release build.
 
-## Moving obstacle status
+## What I'm learning from the moving obstacle
 
-The script saves its starting world position, then applies a sine-based offset every frame. Its default direction is up, its offset reaches 0.5 units on each side, and its speed field controls the rate of oscillation. An earlier variable-name mismatch was corrected with Codex assistance.
+I'm using this script to learn how a saved position and a changing offset work together. The script records its starting world position, then adds a sine-based offset every frame. With the default settings, it moves vertically up to 0.5 units on either side of that position. The speed field controls how quickly the motion repeats.
 
-Source review found no remaining instance of that mismatch. Compilation and gameplay have not yet been tested by Codex. No references to the script's GUID were found in saved `.unity` or `.prefab` files during inspection; attachment to the intended obstacle is unverified, including any unsaved Editor changes.
+I asked Codex to review and explain the script before making changes. Codex found that I declared `moveDirection` but used `movementDirection` in the position calculation. I approved the correction, and Codex made that edit.
 
-## Development approach
+I still need to verify compilation and motion in Unity. Codex found no references to the script's GUID in saved scenes or prefabs, so I also need to confirm that the component is attached to the intended obstacle. That inspection doesn't tell me whether I have unsaved changes in the Editor.
 
-Matthew develops the project with Codex as a tutor and reviewer. Work proceeds one concept at a time: explain, make a small change, test, reflect, and create a focused Git checkpoint once repository initialization is approved.
+## How I use Codex
 
-See `AGENTS.md` for collaboration rules. Personal planning, learning, and development notes remain local and excluded from version control. The project uses local Git checkpoints and the public GitHub repository [Iterate_Prototype](https://github.com/matthewgraham785/Iterate_Prototype).
+I use Codex as a tutor and reviewer. I want to understand the purpose of a change before it is made, work through one concept at a time, and test meaningful changes before moving on. I use small Git commits as checkpoints so I can review progress and return to an earlier state when needed.
+
+I keep my collaboration instructions in `AGENTS.md`. My personal planning and development notes stay local and are excluded from Git. I share the project through my public repository: [Iterate_Prototype](https://github.com/matthewgraham785/Iterate_Prototype).
