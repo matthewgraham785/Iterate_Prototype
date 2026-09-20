@@ -32,4 +32,4 @@ Source review found no remaining instance of that mismatch. Compilation and game
 
 Matthew develops the project with Codex as a tutor and reviewer. Work proceeds one concept at a time: explain, make a small change, test, reflect, and create a focused Git checkpoint once repository initialization is approved.
 
-See `AGENTS.md` for collaboration rules. Personal planning, learning, and development notes remain local and excluded from version control. The project uses local Git checkpoints and the private GitHub repository [Iterate_Prototype](https://github.com/matthewgraham785/Iterate_Prototype).
+See `AGENTS.md` for collaboration rules. Personal planning, learning, and development notes remain local and excluded from version control. The project uses local Git checkpoints and the public GitHub repository [Iterate_Prototype](https://github.com/matthewgraham785/Iterate_Prototype).
