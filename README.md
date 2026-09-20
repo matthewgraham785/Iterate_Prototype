@@ -22,6 +22,10 @@ One early issue was a mismatch between the field I declared, `moveDirection`, an
 
 My next step is to test the arch's motion in Unity, adjust one setting at a time, and record what works before moving on to the cones.
 
+## Moving platform carry: work in progress
+
+I've started [MovingPlatformCarry.cs](Assets/Synty/Scripts/MovingPlatformCarry.cs) as an extension of ITERATE. It currently contains empty `Start()` and `Update()` methods; the carry behavior is still to be implemented. My next step for this script is to work through how a moving platform should carry the player, then test that behavior in Unity.
+
 ## How I'm learning
 
 I write and fix the code myself whenever I can, using AI for explanations, guidance, and a second look when I'm unsure. I work through one concept at a time so I can understand the changes I'm making. When I'm stuck, I ask for a more direct example or help with a specific edit.
