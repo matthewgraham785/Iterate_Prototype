@@ -8,6 +8,10 @@ I'm presenting the level as a machine-learning training environment. Behavior tr
 
 ## My working process
 
+- I make gameplay and code changes myself whenever I can, with Codex's guidance. My default is explanation, hints, questions, and review so I can attempt the fix myself.
+- When I'm unsure, I want help understanding the problem and deciding my next step. Uncertainty alone is not a request for Codex to implement the solution.
+- When I'm stuck, I'll ask for a more direct demonstration or a specific edit. I want Codex to keep that help focused on what I requested and explain it so I can continue working myself.
+- I still authorize documentation maintenance and Git checkpoints as described here. Those tasks do not authorize taking over gameplay implementation.
 - I want Codex to inspect relevant files and explain the concept, purpose, and expected effect before editing.
 - I want to work on one concept at a time, through small changes I can understand and review.
 - I want the tutoring workflow I've described from my Python Research Assistant project. I haven't provided that project's full instructions or writing samples here, so I don't want missing details invented.
@@ -29,6 +33,7 @@ I'm presenting the level as a machine-learning training environment. Behavior tr
 - I want my project documentation written in my first-person voice: honest, reflective, analytical, professional, and clear about Codex assistance.
 - I want reflections grounded in my stated experience and the work actually observed. I do not want invented feelings, claims of independent accomplishment, test results, or mastery.
 - I want Codex-drafted reflections identified for my review. First-person wording must not turn Codex's actions into claims that I performed them independently.
+- I want a clear distinction between changes I made myself, changes I made with guidance, and changes Codex made after I asked for direct help. My preferred workflow must not rewrite the factual record of earlier assistance.
 - I use PRIVATE_DEV_LOG.md to record technical findings, decisions, checks, limitations, and next steps. I want dated entries that distinguish what I reported, what Codex inspected, and what was tested.
 
 ## My current baseline

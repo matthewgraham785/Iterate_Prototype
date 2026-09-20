@@ -32,6 +32,8 @@ I still need to verify compilation and motion in Unity. Codex found no reference
 
 ## How I use Codex
 
-I use Codex as a tutor and reviewer. I want to understand the purpose of a change before it is made, work through one concept at a time, and test meaningful changes before moving on. I use small Git commits as checkpoints so I can review progress and return to an earlier state when needed.
+I use Codex as a tutor and reviewer while I do the development work. When I'm able to make a change or fix a problem myself, I do it with guidance. If I'm unsure, I ask for explanations, hints, or feedback so I can work through the problem. When I'm stuck, I ask Codex to show me more directly or help make a specific change. I keep that distinction clear when I describe my work: what I did myself, what I did with guidance, and what Codex changed at my request.
+
+I want to understand the purpose of a change before it is made, work through one concept at a time, and test meaningful changes before moving on. I use small Git commits as checkpoints so I can review progress and return to an earlier state when needed.
 
 I keep my collaboration instructions in `AGENTS.md`. My personal planning and development notes stay local and are excluded from Git. I share the project through my public repository: [Iterate_Prototype](https://github.com/matthewgraham785/Iterate_Prototype).
