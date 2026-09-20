@@ -10,7 +10,7 @@ I'm presenting the level as a machine-learning training environment. The player 
 
 I've built out my player and level foundation with a custom mannequin, Starter Assets third-person movement, and an expanded ProBuilder greybox. My level includes circular platforms, stairs, narrow traversal, an arch/tube obstacle, cones, and merging routes.
 
-I'm now working on my first custom C# script: [MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs). My immediate goal is to move the arch vertically. After that, I want to apply the same movement concept to two cones moving horizontally.
+My first custom C# script is [MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs). My saved greybox scene now uses it for vertical arch movement and two horizontally moving cones. These are configured behaviors; I still need to record a completed movement test.
 
 ## My first script: moving obstacles
 
@@ -20,11 +20,15 @@ I can adjust the direction, distance, and speed through the component's fields. 
 
 One early issue was a mismatch between the field I declared, `moveDirection`, and the name used in the movement calculation, `movementDirection`. I asked Codex to explain the code and help identify errors, then asked it to make that correction. This is a specific instance of direct code assistance.
 
-My next step is to test the arch's motion in Unity, adjust one setting at a time, and record what works before moving on to the cones.
+The saved arch and cone components use a movement distance of 0.75, giving a total travel range of 1.5 units. The arch uses a speed setting of 1, and the cones use 0.5. My next step is to test their motion in Unity, adjust one setting at a time, and record the results.
 
-## Moving platform carry: work in progress
+## Scope decision: defer platform carrying
 
-I've started [MovingPlatformCarry.cs](Assets/Synty/Scripts/MovingPlatformCarry.cs) as an extension of ITERATE. It currently contains empty `Start()` and `Update()` methods; the carry behavior is still to be implemented. My next step for this script is to work through how a moving platform should carry the player, then test that behavior in Unity.
+I explored carrying the player through trigger-based parenting and then a separate rider script that used the obstacle's movement each frame. The parenting attempt did not carry my player during testing, and I have not recorded a successful result for the rider approach. Because of the time constraint, I decided to defer carrying and return to the original sine movement. Both experimental carry scripts have been removed.
+
+I asked Codex to restore the obstacle movement directly. The script retains a compatibility attribute for the temporarily renamed direction field so existing Inspector values can be preserved. This work helped distinguish moving an obstacle from making the player travel with it; carrying needs its own detection and movement logic.
+
+My saved scene still has two disabled component references to the deleted carry script. Removing those missing components in Unity remains a cleanup task.
 
 ## How I'm learning
 
@@ -35,7 +39,8 @@ I want to be honest about that process. I distinguish between work I do myself, 
 ## What comes next
 
 - I'll test and tune the vertical arch movement.
-- I'll apply the same concept to horizontal cone movement.
+- I'll test and tune the configured horizontal cone movement.
+- I'll remove the leftover missing carry components from the scene.
 - I'll continue developing the choice between easier and harder routes.
 - Later, I'll decide what player behavior to record and how it should affect a subsequent run.
 
