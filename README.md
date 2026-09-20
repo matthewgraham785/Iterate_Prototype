@@ -1,39 +1,38 @@
 # ITERATE
 
-I'm building ITERATE as an eight-week solo Unity 3D platformer. My goal is to create a level that feels like a machine-learning training environment, with choices that eventually influence a later run.
+I'm building ITERATE as an eight-week solo Unity 3D platformer. I use this repository to show my progress, share my code, and explain how the project develops as I learn.
 
-## My concept
+## What I'm building
 
-I give the player a choice between an easier route and a more difficult route. Those routes eventually merge. I plan to track player behavior and use that information to adapt a subsequent run. That system is still planned; I have not established a working trained machine-learning model in this project.
+I'm presenting the level as a machine-learning training environment. The player chooses between an easier route and a more difficult route, and those routes eventually merge. My longer-term goal is to track player behavior and use it to adapt a later run. Behavior tracking and adaptation are still planned features.
 
-## My current progress
+## My progress so far
 
-My current foundation includes a working custom mannequin, Starter Assets third-person movement, and an expanded ProBuilder greybox. I have circular platforms, stairs, narrow traversal, an arch/tube obstacle, cones, and routes that merge. This is the progress I've described during development; Codex has not independently verified it in Play mode.
+I've built out my player and level foundation with a custom mannequin, Starter Assets third-person movement, and an expanded ProBuilder greybox. My level includes circular platforms, stairs, narrow traversal, an arch/tube obstacle, cones, and merging routes.
 
-My first custom C# task is to move the arch vertically. Once that works, I want to apply the same concept to two cones moving horizontally. My script is at `Assets/Synty/Scripts/MovingObstacle.cs`. I originally referred to `Assets/Scripts/MovingObstacle.cs`, but that isn't its actual location.
+I'm now working on my first custom C# script: [MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs). My immediate goal is to move the arch vertically. After that, I want to apply the same movement concept to two cones moving horizontally.
 
-## How I open and check the project
+## My first script: moving obstacles
 
-1. I add the project root folder to Unity Hub.
-2. I use the editor version recorded in `ProjectSettings/ProjectVersion.txt`: `6000.4.0f1` at the time of inspection.
-3. I allow Unity to import assets and resolve the dependencies in `Packages/manifest.json` and the package lock file.
-4. I select my working scene before testing. My saved scenes include `Assets/ITERATE_Prototype.unity`, `Assets/ITERATE_Greybox_01.unity`, and `Assets/ITERATE_Greybox_03.unity`. I still need to confirm the active scene in this review.
-5. I check the Console and use Play mode to test the specific behavior I'm working on.
+I'm learning how to move an object relative to its starting position. The script saves that position in `Start()`, then uses `Update()` to apply a changing offset. A sine value makes the motion repeat smoothly in both directions.
 
-My project includes Input System, Cinemachine, ProBuilder, and Universal Render Pipeline dependencies. My saved build scene list currently enables `Assets/Scenes/SampleScene.unity`, so I still need to select and verify the intended scene before preparing a release build.
+I can adjust the direction, distance, and speed through the component's fields. With the default distance of 0.5, the offset reaches 0.5 units on either side of the starting position, giving a total travel range of 1 unit. The speed setting controls how quickly the motion repeats.
 
-## What I'm learning from the moving obstacle
+One early issue was a mismatch between the field I declared, `moveDirection`, and the name used in the movement calculation, `movementDirection`. I asked Codex to explain the code and help identify errors, then asked it to make that correction. This is a specific instance of direct code assistance.
 
-I'm using this script to learn how a saved position and a changing offset work together. The script records its starting world position, then adds a sine-based offset every frame. With the default settings, it moves vertically up to 0.5 units on either side of that position. The speed field controls how quickly the motion repeats.
+My next step is to test the arch's motion in Unity, adjust one setting at a time, and record what works before moving on to the cones.
 
-I asked Codex to review and explain the script before making changes. Codex found that I declared `moveDirection` but used `movementDirection` in the position calculation. I approved the correction, and Codex made that edit.
+## How I'm learning
 
-I still need to verify compilation and motion in Unity. Codex found no references to the script's GUID in saved scenes or prefabs, so I also need to confirm that the component is attached to the intended obstacle. That inspection doesn't tell me whether I have unsaved changes in the Editor.
+I write and fix the code myself whenever I can, using AI for explanations, guidance, and a second look when I'm unsure. I work through one concept at a time so I can understand the changes I'm making. When I'm stuck, I ask for a more direct example or help with a specific edit.
 
-## How I use Codex
+I want to be honest about that process. I distinguish between work I do myself, work I do with guidance, and code changes made with direct AI assistance. My goal is to build my understanding alongside the game.
 
-I use Codex as a tutor and reviewer while I do the development work. When I'm able to make a change or fix a problem myself, I do it with guidance. If I'm unsure, I ask for explanations, hints, or feedback so I can work through the problem. When I'm stuck, I ask Codex to show me more directly or help make a specific change. I keep that distinction clear when I describe my work: what I did myself, what I did with guidance, and what Codex changed at my request.
+## What comes next
 
-I want to understand the purpose of a change before it is made, work through one concept at a time, and test meaningful changes before moving on. I use small Git commits as checkpoints so I can review progress and return to an earlier state when needed.
+- I'll test and tune the vertical arch movement.
+- I'll apply the same concept to horizontal cone movement.
+- I'll continue developing the choice between easier and harder routes.
+- Later, I'll decide what player behavior to record and how it should affect a subsequent run.
 
-I keep my collaboration instructions in `AGENTS.md`. My personal planning and development notes stay local and are excluded from Git. I share the project through my public repository: [Iterate_Prototype](https://github.com/matthewgraham785/Iterate_Prototype).
+I'll keep this page and my commit history focused on what changes, why I make those decisions, and what I learn along the way.
