@@ -1,0 +1,52 @@
+# Private root-level logs
+/LEARNING_LOG.md
+/PRIVATE_DEV_LOG.md
+/PROJECT_PLAN.md
+
+# Unity-generated caches and local settings
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
+
+# Generated builds and local backups
+/[Bb]uild/
+/[Bb]uilds/
+/[Bb]ackup/
+
+# IDE state and generated solution/project files
+/.vs/
+/.vscode/
+/.idea/
+/*.csproj
+/*.unityproj
+/*.sln
+/*.slnx
+/*.suo
+/*.user
+/*.userprefs
+/*.pidb
+/*.booproj
+/*.svd
+/*.pdb
+/*.mdb
+/*.opendb
+/*.VC.db
+/ExportedObj/
+/GeneratedAssets/
+
+# Unity diagnostic output
+/sysinfo.txt
+/crashlytics-build.properties
+/UpgradeLog.htm
+/UpgradeLog*.XML
+
+# OS metadata
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Keep Assets (including .meta), Packages, and ProjectSettings tracked.
