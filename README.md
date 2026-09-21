@@ -20,7 +20,7 @@ I've now added `LabCeiling` to the lab environment with its own `MAT_LabCeiling`
 
 I've also adjusted the obstacle layout, raising three cones and the risk ramp and repositioning the moving arch/tube. The saved scene includes further ProBuilder geometry edits. This update focuses on the environment, materials, and obstacle placement; the C# scripts are unchanged.
 
-I'm working with texture tiling as well as object placement: the floor material uses tiling of 8 by 12, and the wall material uses 24.22 by 4.4. My next check is how the surfaces, obstacle spacing, and camera view work together during traversal. I haven't recorded a Play mode result for this environment update yet.
+I'm working with texture tiling as well as object placement: the floor material uses tiling of 8 by 12. I've reduced the wall material's tiling from 24.22 by 4.4 to 8 by 2, making the texture repeat fewer times across the same surfaces. I've also lowered all four walls and the ceiling to refine the enclosure's placement. My next check is how the surfaces, obstacle spacing, and camera view work together during traversal. I haven't recorded a Play mode result for this environment update yet.
 
 ## My first script: moving obstacles
 
