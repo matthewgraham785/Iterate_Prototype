@@ -16,7 +16,7 @@ My first custom C# script is [MovingObstacle.cs](Assets/Synty/Scripts/MovingObst
 
 I've expanded the greybox presentation with a `LabEnvironment` group containing a floor and four walls: left, right, start, and end. I've added floor and wall textures with separate `MAT_LabFloor` and `MAT_LabWall` materials. This gives the course a lab setting that supports the machine-learning training-environment concept.
 
-The wall and floor texture images were generated with AI. I placed them in Unity and adapted them to fit the level myself, including their material settings and tiling. The texture for the upcoming ceiling was also generated with AI; adding the ceiling to the level is still planned.
+I've now added `LabCeiling` to the lab environment with its own `MAT_LabCeiling` material. The wall, floor, and ceiling texture images were generated with AI. I placed them in Unity and adapted them to fit the level myself, including their material settings and tiling. The ceiling material uses tiling of 4.44 by 7.93 and a texture offset to align the image with the surface.
 
 I've also adjusted the obstacle layout, raising three cones and the risk ramp and repositioning the moving arch/tube. The saved scene includes further ProBuilder geometry edits. This update focuses on the environment, materials, and obstacle placement; the C# scripts are unchanged.
 
