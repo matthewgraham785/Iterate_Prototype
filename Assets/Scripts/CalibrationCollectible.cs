@@ -2,15 +2,20 @@ using UnityEngine;
 
 public class CalibrationCollectible : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private bool collected = false;
 
-    // Update is called once per frame
-    void Update()
+    private void OnTriggerEnter(Collider other)
     {
-        
+        if (collected)
+        {
+            return;
+        }
+
+        if (other.CompareTag("Player"))
+        {
+            collected = true;
+            CalibrationManager.Instance.CollectData();
+            Destroy(gameObject);
+        }
     }
 }
