@@ -46,6 +46,14 @@ I asked for a code review to double-check the manager. The current script needs 
 
 I've added pickup behavior to [CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs), attached the script in Unity, and tested it successfully. When an object tagged `Player` enters the trigger, the script marks the pickup as collected, calls the manager to update the counter, and destroys the pickup object. The `collected` flag prevents the same pickup from being counted again.
 
+## Data shard animation
+
+I've added [DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs) to give the calibration shards a floating, rotating glitch effect that fits the simulated training environment. The shard rotates around the vertical axis and bobs around its starting position. Two child fragments shift in opposite horizontal directions, with one also moving vertically, to create a repeating visual distortion.
+
+This builds on the sine offsets used for my moving obstacles. The shard's bob uses world position, while the fragments use local positions so their offsets follow the rotating shard. My saved scene includes three animation components with a rotation speed of 55 degrees per second, bob height of 0.12, bob speed of 2, glitch distance of 0.06, and glitch speed of 10. The glitch is a repeating movement effect; collection and counting remain in their separate scripts.
+
+The animation is implemented and saved in the scene. I've tested collection in Unity with the glitch animation active and confirmed that it works.
+
 ## How I'm learning
 
 I write and fix the code myself whenever I can, using AI for explanations, guidance, and a second look when I'm unsure. I work through one concept at a time so I can understand the changes I'm making. When I'm stuck, I ask for a more direct example or help with a specific edit.
