@@ -38,6 +38,14 @@ I've also added [PlayerRespawn.cs](Assets/Synty/Scripts/PlayerRespawn.cs). It sa
 
 I corrected a mistyped `private` keyword and a missing closing brace after asking for help identifying the syntax errors. The respawn script does not reset the movement controller's stored falling velocity; repeat falls and landing behavior still need testing in Unity.
 
+## Calibration counter
+
+I've added [CalibrationManager.cs](Assets/Scripts/CalibrationManager.cs) and set up the counter UI in Unity. The manager starts the collected count at zero, displays it through TextMeshPro, and adds one whenever `CollectData()` is called. The target defaults to three. This gives me a counter for calibration pickups within the training-environment concept; it does not implement behavior tracking or adaptation.
+
+I asked for a code review to double-check the manager. The current script needs an assigned text reference and a single manager in the scene. It does not yet limit the count or trigger completion when the target is reached.
+
+I've also started [CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs). It currently contains only empty `Start()` and `Update()` methods, so pickup detection and the call to the manager are still to be implemented. I have confirmed the manager setup, but I have not yet recorded a full pickup test.
+
 ## How I'm learning
 
 I write and fix the code myself whenever I can, using AI for explanations, guidance, and a second look when I'm unsure. I work through one concept at a time so I can understand the changes I'm making. When I'm stuck, I ask for a more direct example or help with a specific edit.
@@ -46,6 +54,7 @@ I want to be honest about that process. I distinguish between work I do myself, 
 
 ## What comes next
 
+- I'll implement calibration pickup detection and connect it to the counter, then test collection in Unity.
 - I'll test and tune the vertical arch movement.
 - I'll test and tune the configured horizontal cone movement.
 - I'll test the revised camera framing and fall recovery, including repeated falls.
