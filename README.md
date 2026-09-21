@@ -12,6 +12,16 @@ I've built out my player and level foundation with a custom mannequin, Starter A
 
 My first custom C# script is [MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs). My saved greybox scene now uses it for vertical arch movement and two horizontally moving cones. These are configured behaviors; I still need to record a completed movement test.
 
+## Lab environment and course layout
+
+I've expanded the greybox presentation with a `LabEnvironment` group containing a floor and four walls: left, right, start, and end. I've added floor and wall textures with separate `MAT_LabFloor` and `MAT_LabWall` materials. This gives the course a lab setting that supports the machine-learning training-environment concept.
+
+The wall and floor texture images were generated with AI. I placed them in Unity and adapted them to fit the level myself, including their material settings and tiling. The texture for the upcoming ceiling was also generated with AI; adding the ceiling to the level is still planned.
+
+I've also adjusted the obstacle layout, raising three cones and the risk ramp and repositioning the moving arch/tube. The saved scene includes further ProBuilder geometry edits. This update focuses on the environment, materials, and obstacle placement; the C# scripts are unchanged.
+
+I'm working with texture tiling as well as object placement: the floor material uses tiling of 8 by 12, and the wall material uses 24.22 by 4.4. My next check is how the surfaces, obstacle spacing, and camera view work together during traversal. I haven't recorded a Play mode result for this environment update yet.
+
 ## My first script: moving obstacles
 
 I'm learning how to move an object relative to its starting position. The script saves that position in `Start()`, then uses `Update()` to apply a changing offset. A sine value makes the motion repeat smoothly in both directions.
@@ -62,6 +72,7 @@ I want to be honest about that process. I distinguish between work I do myself, 
 
 ## What comes next
 
+- I'll test traversal and camera visibility in the new lab enclosure, including the revised obstacle positions and texture scale.
 - I'll decide what should happen when the calibration counter reaches its target; completion behavior is still pending.
 - I'll test and tune the vertical arch movement.
 - I'll test and tune the configured horizontal cone movement.
