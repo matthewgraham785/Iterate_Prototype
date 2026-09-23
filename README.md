@@ -22,6 +22,8 @@ I've also adjusted the obstacle layout, raising three cones and the risk ramp an
 
 I'm working with texture tiling as well as object placement: the floor material uses tiling of 8 by 12. I've reduced the wall material's tiling from 24.22 by 4.4 to 8 by 2, making the texture repeat fewer times across the same surfaces. I've also lowered all four walls and the ceiling to refine the enclosure's placement. My next check is how the surfaces, obstacle spacing, and camera view work together during traversal. I haven't recorded a Play mode result for this environment update yet.
 
+I've started separate material assets for neutral platforms, the harder route, and the safer route: `MAT_PlatformNeutral`, `MAT_RouteHard`, and `MAT_RouteSafe`. Their saved base colors are currently all white, so this is an initial material setup rather than a completed visual distinction between routes.
+
 ## My first script: moving obstacles
 
 I'm learning how to move an object relative to its starting position. The script saves that position in `Start()`, then uses `Update()` to apply a changing offset. A sine value makes the motion repeat smoothly in both directions.
@@ -64,6 +66,12 @@ This builds on the sine offsets used for my moving obstacles. The shard's bob us
 
 The animation is implemented and saved in the scene. I've tested collection in Unity with the glitch animation active and confirmed that it works.
 
+## Planned finish: energy wall
+
+I plan to replace the current finish marker with a glowing cyan, semi-transparent emissive energy wall that the player can walk through. A trigger will detect the player crossing it, end the level, and change the UI to `CALIBRATION COMPLETE`. I'll either stop level movement or disable player input when the run ends; that implementation choice is still open.
+
+This finish behavior is not implemented or tested yet. Showing collected data and completion time is an optional later addition.
+
 ## How I'm learning
 
 I write and fix the code myself whenever I can, using AI for explanations, guidance, and a second look when I'm unsure. I work through one concept at a time so I can understand the changes I'm making. When I'm stuck, I ask for a more direct example or help with a specific edit.
@@ -73,7 +81,7 @@ I want to be honest about that process. I distinguish between work I do myself, 
 ## What comes next
 
 - I'll test traversal and camera visibility in the new lab enclosure, including the revised obstacle positions and texture scale.
-- I'll decide what should happen when the calibration counter reaches its target; completion behavior is still pending.
+- I'll implement and test the planned energy-wall finish. I'll also decide whether reaching the calibration pickup target is required to finish.
 - I'll test and tune the vertical arch movement.
 - I'll test and tune the configured horizontal cone movement.
 - I'll test the revised camera framing and fall recovery, including repeated falls.
