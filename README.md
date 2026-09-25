@@ -22,7 +22,7 @@ I've also adjusted the obstacle layout, raising three cones and the risk ramp an
 
 I'm working with texture tiling as well as object placement: the floor material uses tiling of 8 by 12. I've reduced the wall material's tiling from 24.22 by 4.4 to 8 by 2, making the texture repeat fewer times across the same surfaces. I've also lowered all four walls and the ceiling to refine the enclosure's placement. My next check is how the surfaces, obstacle spacing, and camera view work together during traversal. I haven't recorded a Play mode result for this environment update yet.
 
-I've started separate material assets for neutral platforms, the harder route, and the safer route: `MAT_PlatformNeutral`, `MAT_RouteHard`, and `MAT_RouteSafe`. Their saved base colors are currently all white, so this is an initial material setup rather than a completed visual distinction between routes.
+I've given the neutral platforms a grey material, the harder route an orange-brown material, and the safer route a teal material using `MAT_PlatformNeutral`, `MAT_RouteHard`, and `MAT_RouteSafe`. I've applied these materials across the saved course to help distinguish its routes. All three use metallic 0.2 and smoothness 0.35. The saved layout also removes the `Safe_02` platform; I still need to check traversal and route readability in play.
 
 ## My first script: moving obstacles
 
@@ -66,11 +66,15 @@ This builds on the sine offsets used for my moving obstacles. The shard's bob us
 
 The animation is implemented and saved in the scene. I've tested collection in Unity with the glitch animation active and confirmed that it works.
 
-## Planned finish: energy wall
+## Completion gate: energy wall
 
-I plan to replace the current finish marker with a glowing cyan, semi-transparent emissive energy wall that the player can walk through. A trigger will detect the player crossing it, end the level, and change the UI to `CALIBRATION COMPLETE`. I'll either stop level movement or disable player input when the run ends; that implementation choice is still open.
+I've replaced the finish marker with a cyan, semi-transparent emissive energy wall using `MAT_FinishGate`. I've created the gate in Unity and attached [FinishGate.cs](Assets/Scripts/FinishGate.cs). The saved gate has a trigger collider and an assigned completion panel containing `CALIBRATION COMPLETE`.
 
-This finish behavior is not implemented or tested yet. Showing collected data and completion time is an optional later addition.
+The script hides the panel at startup. When a collider tagged `Player` enters, it records completion, shows the panel, sets `Time.timeScale` to zero, and unlocks and shows the cursor. A flag prevents repeated completion. Startup and destruction restore normal game time. This implements the pause through game time rather than a separate player-input toggle.
+
+I asked Codex to double-check the script before attaching it. The review highlighted that a missing panel reference would still allow the game to pause, and that restoring time affects the whole scene. The gate currently allows completion regardless of the number of calibration pickups collected. I still need to decide whether collecting all three should be required.
+
+The gate and UI are configured in the saved scene, but I haven't recorded a finish-gate Play mode test yet. My next check is entering the gate and observing the panel, player movement, obstacle movement, and cursor. Showing collected data and completion time remains an optional later addition.
 
 ## How I'm learning
 
@@ -81,7 +85,7 @@ I want to be honest about that process. I distinguish between work I do myself, 
 ## What comes next
 
 - I'll test traversal and camera visibility in the new lab enclosure, including the revised obstacle positions and texture scale.
-- I'll implement and test the planned energy-wall finish. I'll also decide whether reaching the calibration pickup target is required to finish.
+- I'll test the configured energy-wall finish and completion panel. I'll also decide whether reaching the calibration pickup target is required to finish.
 - I'll test and tune the vertical arch movement.
 - I'll test and tune the configured horizontal cone movement.
 - I'll test the revised camera framing and fall recovery, including repeated falls.
