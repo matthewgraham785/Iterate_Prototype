@@ -6,6 +6,16 @@ I'm building ITERATE as an eight-week solo Unity 3D platformer. I use this repos
 
 I'm presenting the level as a machine-learning training environment. The player chooses between safer and riskier routes that eventually merge, and the broader idea is to track behavior and adapt a later run based on that data. The current prototype is not yet fully adaptive, but it is now structured to support decision tracking and route comparison in a way that feels closer to an RL-style training loop.
 
+## How I work on this project
+
+I make gameplay and code changes myself whenever I can. I use AI as a tutor and reviewer for explanations, hints, questions, and feedback. When I'm unsure, I want help understanding the problem and choosing my next step. Uncertainty alone is not a request to implement the solution.
+
+When I'm stuck, I will ask for a direct demonstration or a specific edit. I want that help focused on what I requested, with an explanation that lets me continue myself. I want relevant files inspected and proposed changes explained before editing. I work through one concept at a time.
+
+I expect appropriate tests after meaningful changes. I want source inspection distinguished from compilation and Play mode results. If testing needs my interaction in Unity, I want to be asked for the relevant observations. I want my existing work preserved, and I do not want routine documentation, Git administration, or verification narrated as AI accomplishments.
+
+I want the README to explain my concept, completed work, current code, decisions, learning, and next steps. I want AI references limited to learning and code assistance: explanations, double-checking code, and direct help I requested. I want accurate attribution for code changes, and I want completed work clearly separated from plans.
+
 ## Current progress
 
 I have a working greybox course with a lab-inspired enclosure, route colors, a calibration loop, hazard behavior, respawn logic, and a finish gate. The level now reads like a test environment rather than a placeholder room, and the scripts are built around the motion and danger patterns I need for the prototype.
