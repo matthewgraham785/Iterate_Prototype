@@ -12,7 +12,7 @@ I have a working greybox course with a lab-inspired enclosure, route colors, a c
 
 ## The current course
 
-The level includes a lab environment, route separation, a moving arch, two moving cones, six collectible data shards total, rotating and laser hazards, a respawn system, and a finish gate. There are three orange-coded shards on the safe route and three orange-coded shards on the risk route, so each path leaves a visible route identity in the collected data. This makes the prototype feel more like a true training environment for machine-learning or reinforcement-learning decision analysis.
+The level includes a lab environment, route separation, a moving tube, two moving cones, six collectible data shards total, two laser hazards, a respawn system, and a finish gate. There are three orange-coded shards on the safe route and three orange-coded shards on the risk route, so each path leaves a visible route identity in the collected data. This makes the prototype feel more like a true training environment for machine-learning or reinforcement-learning decision analysis.
 
 The course uses a `LabEnvironment` with floor, walls, and ceiling, plus separate materials for the neutral route, hard route, and safe route. The saved course also includes a cyan energy gate and associated completion panel. The obstacle layout is now part of the level rather than isolated experiments.
 
@@ -20,7 +20,7 @@ The course uses a `LabEnvironment` with floor, walls, and ceiling, plus separate
 
 ### Movement and obstacle logic
 
-- [Assets/Synty/Scripts/MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs): copies a saved start position, then applies a sine-wave offset to move along a direction vector. This drives the vertical arch and horizontal cone movement.
+- [Assets/Synty/Scripts/MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs): copies a saved start position, then applies a sine-wave offset to move along a direction vector. This drives the vertical moving tube and horizontal cone movement.
 - [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs): rotates an object around its own local axis at a configured speed. This is useful for spinning obstacles and hazard geometry.
 - [Assets/Scripts/LaserHazard.cs](Assets/Scripts/LaserHazard.cs): detects a player collider and calls the respawn flow when tagged appropriately.
 
@@ -40,7 +40,7 @@ The calibration system is now working as a route-aware loop: the player collects
 
 ### Hazard loop
 
-The rotating hazard and laser hazard are built as simple danger components with clear behavior. The spinning object rotates continuously in local space, and the contact-based laser triggers the player respawn. This keeps the hazard logic readable and easy to tune in the Inspector.
+The moving platforms and laser hazards are built as simple danger components with clear behavior. The platform obstacles follow a sine-wave offset along their travel path, while the two contact-based laser beams trigger the player respawn. This keeps the hazard logic readable and easy to tune in the Inspector.
 
 ### Recovery and progression
 
