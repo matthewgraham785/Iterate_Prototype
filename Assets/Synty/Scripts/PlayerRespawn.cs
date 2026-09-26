@@ -25,7 +25,7 @@ public class PlayerRespawn : MonoBehaviour
         }
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         characterController.enabled = false;
         transform.position = respawnPosition;

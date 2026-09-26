@@ -4,92 +4,69 @@ I'm building ITERATE as an eight-week solo Unity 3D platformer. I use this repos
 
 ## What I'm building
 
-I'm presenting the level as a machine-learning training environment. The player chooses between an easier route and a more difficult route, and those routes eventually merge. My longer-term goal is to track player behavior and use it to adapt a later run. Behavior tracking and adaptation are still planned features.
+I'm presenting the level as a machine-learning training environment. The player chooses between easier and harder routes that eventually merge, and the broader idea is to track behavior and adapt a later run based on that data. Behavior tracking and adaptation are still planned features, but the environment, hazards, and calibration loop are now in place.
 
-## My progress so far
+## Current progress
 
-I've built out my player and level foundation with a custom mannequin, Starter Assets third-person movement, and an expanded ProBuilder greybox. My level includes circular platforms, stairs, narrow traversal, an arch/tube obstacle, cones, and merging routes.
+I have a working greybox course with a lab-inspired enclosure, route colors, a calibration loop, hazard behavior, respawn logic, and a finish gate. The level now reads like a test environment rather than a placeholder room, and the scripts are built around the motion and danger patterns I need for the prototype.
 
-My first custom C# script is [MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs). My saved greybox scene now uses it for vertical arch movement and two horizontally moving cones. These are configured behaviors; I still need to record a completed movement test.
+## The current course
 
-## Lab environment and course layout
+The level includes a lab environment, route separation, a moving arch, two moving cones, three collectible data shards, rotating and laser hazards, a respawn system, and a finish gate. I have tuned the room and materials so the route difference is readable in scene and play.
 
-I've expanded the greybox presentation with a `LabEnvironment` group containing a floor and four walls: left, right, start, and end. I've added floor and wall textures with separate `MAT_LabFloor` and `MAT_LabWall` materials. This gives the course a lab setting that supports the machine-learning training-environment concept.
+The course uses a `LabEnvironment` with floor, walls, and ceiling, plus separate materials for the neutral route, hard route, and safe route. The saved course also includes a cyan energy gate and associated completion panel. The obstacle layout is now part of the level rather than isolated experiments.
 
-I've now added `LabCeiling` to the lab environment with its own `MAT_LabCeiling` material. The wall, floor, and ceiling texture images were generated with AI. I placed them in Unity and adapted them to fit the level myself, including their material settings and tiling. The ceiling material uses tiling of 4.44 by 7.93 and a texture offset to align the image with the surface.
+## Script overview
 
-I've also adjusted the obstacle layout, raising three cones and the risk ramp and repositioning the moving arch/tube. The saved scene includes further ProBuilder geometry edits. This update focuses on the environment, materials, and obstacle placement; the C# scripts are unchanged.
+### Movement and obstacle logic
 
-I'm working with texture tiling as well as object placement: the floor material uses tiling of 8 by 12. I've reduced the wall material's tiling from 24.22 by 4.4 to 8 by 2, making the texture repeat fewer times across the same surfaces. I've also lowered all four walls and the ceiling to refine the enclosure's placement. My next check is how the surfaces, obstacle spacing, and camera view work together during traversal. I haven't recorded a Play mode result for this environment update yet.
+- [Assets/Synty/Scripts/MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs): copies a saved start position, then applies a sine-wave offset to move along a direction vector. This drives the vertical arch and horizontal cone movement.
+- [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs): rotates an object around its own local axis at a configured speed. This is useful for spinning obstacles and hazard geometry.
+- [Assets/Scripts/LaserHazard.cs](Assets/Scripts/LaserHazard.cs): detects a player collider and calls the respawn flow when tagged appropriately.
 
-I've given the neutral platforms a grey material, the harder route an orange-brown material, and the safer route a teal material using `MAT_PlatformNeutral`, `MAT_RouteHard`, and `MAT_RouteSafe`. I've applied these materials across the saved course to help distinguish its routes. All three use metallic 0.2 and smoothness 0.35. The saved layout also removes the `Safe_02` platform; I still need to check traversal and route readability in play.
+### Player flow and systems
 
-## My first script: moving obstacles
+- [Assets/Synty/Scripts/PlayerRespawn.cs](Assets/Synty/Scripts/PlayerRespawn.cs): saves the start position and rotation, then restores the player if they fall below the set threshold.
+- [Assets/Scripts/CalibrationManager.cs](Assets/Scripts/CalibrationManager.cs): keeps a collected-data counter and updates the UI text.
+- [Assets/Scripts/CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs): marks a pickup as collected, informs the manager, and destroys the collectible when the player touches it.
+- [Assets/Scripts/DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs): adds the floating and glitch-style motion to the calibration units.
+- [Assets/Scripts/FinishGate.cs](Assets/Scripts/FinishGate.cs): triggers level completion, shows the completion panel, pauses time, and unlocks the cursor.
 
-I'm learning how to move an object relative to its starting position. The script saves that position in `Start()`, then uses `Update()` to apply a changing offset. A sine value makes the motion repeat smoothly in both directions.
+## Complete systems in the prototype
 
-I can adjust the direction, distance, and speed through the component's fields. With the default distance of 0.5, the offset reaches 0.5 units on either side of the starting position, giving a total travel range of 1 unit. The speed setting controls how quickly the motion repeats.
+### Calibration loop
 
-One early issue was a mismatch between the field I declared, `moveDirection`, and the name used in the movement calculation, `movementDirection`. I asked Codex to explain the code and help identify errors, then asked it to make that correction. This is a specific instance of direct code assistance.
+The calibration system is now working as a loop: the player collects data shards, the manager updates the count, and the gate and completion state remain ready for a final test. The collectibles are separate from the animation, which keeps the visual effect distinct from the gameplay logic.
 
-The saved arch and cone components use a movement distance of 0.75, giving a total travel range of 1.5 units. The arch uses a speed setting of 1, and the cones use 0.5. My next step is to test their motion in Unity, adjust one setting at a time, and record the results.
+### Hazard loop
 
-## Scope decision: defer platform carrying
+The rotating hazard and laser hazard are built as simple danger components with clear behavior. The spinning object rotates continuously in local space, and the contact-based laser triggers the player respawn. This keeps the hazard logic readable and easy to tune in the Inspector.
 
-I explored carrying the player through trigger-based parenting and then a separate rider script that used the obstacle's movement each frame. The parenting attempt did not carry my player during testing, and I have not recorded a successful result for the rider approach. Because of the time constraint, I decided to defer carrying and return to the original sine movement. Both experimental carry scripts have been removed.
+### Recovery and progression
 
-I asked Codex to restore the obstacle movement directly. The script retains a compatibility attribute for the temporarily renamed direction field so existing Inspector values can be preserved. This work helped distinguish moving an obstacle from making the player travel with it; carrying needs its own detection and movement logic.
+The player respawn system handles falling out of the course, and the finish gate pauses the game when the player reaches the end. That gives the prototype a clear flow: traverse, collect data, survive hazards, reach the end, and complete the run.
 
-The leftover carry components have now been removed from my saved scene, along with the cones' experimental trigger colliders and Rigidbodies.
+## What I learned
 
-## Camera and fall recovery
+I improved my understanding of several Unity patterns in this build:
 
-I've adjusted the course camera's distance, shoulder offset, vertical arm length, field of view, and angle override as part of improving the view of the obstacles. The saved camera distance is 4.5 and the field of view is 55. I still need to record how the revised framing feels during traversal.
+- A sine-wave offset is a clean way to make an obstacle move back and forth without a rigidbody.
+- Rotation and motion should be separated when I want the object to spin while keeping its path independent.
+- Script logic should stay readable: hazard behavior, collection behavior, and UI/counter behavior each have a distinct responsibility.
+- A respawn system is much more useful when it is simple and consistent, even before I add checkpoints or deeper tracking.
 
-I've also added [PlayerRespawn.cs](Assets/Synty/Scripts/PlayerRespawn.cs). It saves the player's starting position and rotation, then restores them if the player falls below Y = -10. It temporarily disables the Character Controller while repositioning the player. This gives the course a basic fall-recovery mechanism without adding checkpoints yet.
+## Current status
 
-I corrected a mistyped `private` keyword and a missing closing brace after asking for help identifying the syntax errors. The respawn script does not reset the movement controller's stored falling velocity; repeat falls and landing behavior still need testing in Unity.
+The current version of the project is in a testable state. I have updated the obstacle layouts, materials, hazard scripts, collectible loop, respawn logic, and finish gate, and I have confirmed the behavior in Unity while working through the prototype. I am now at the point where the code, scene, and documentation are aligned enough to commit the project state.
 
-## Calibration counter
+## Next steps
 
-I've added [CalibrationManager.cs](Assets/Scripts/CalibrationManager.cs) and set up the counter UI in Unity. The manager starts the collected count at zero, displays it through TextMeshPro, and adds one whenever `CollectData()` is called. The target defaults to three. This gives me a counter for calibration pickups within the training-environment concept; it does not implement behavior tracking or adaptation.
+The next improvements are not a rebuild from scratch; they are refinements to the current prototype:
 
-I asked for a code review to double-check the manager. The current script needs an assigned text reference and a single manager in the scene. It does not yet limit the count or trigger completion when the target is reached.
+- test traversal timing against the hazard placement
+- tune obstacle speed and spacing for readability and difficulty
+- decide whether the finish gate should require all three calibration pickups
+- add behavioral tracking once the level flow is stable
+- use the next run to evaluate whether the route choice and hazard pacing feel intentional
 
-I've added pickup behavior to [CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs), attached the script in Unity, and tested it successfully. When an object tagged `Player` enters the trigger, the script marks the pickup as collected, calls the manager to update the counter, and destroys the pickup object. The `collected` flag prevents the same pickup from being counted again.
-
-## Data shard animation
-
-I've added [DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs) to give the calibration shards a floating, rotating glitch effect that fits the simulated training environment. The shard rotates around the vertical axis and bobs around its starting position. Two child fragments shift in opposite horizontal directions, with one also moving vertically, to create a repeating visual distortion.
-
-This builds on the sine offsets used for my moving obstacles. The shard's bob uses world position, while the fragments use local positions so their offsets follow the rotating shard. My saved scene includes three animation components with a rotation speed of 55 degrees per second, bob height of 0.12, bob speed of 2, glitch distance of 0.06, and glitch speed of 10. The glitch is a repeating movement effect; collection and counting remain in their separate scripts.
-
-The animation is implemented and saved in the scene. I've tested collection in Unity with the glitch animation active and confirmed that it works.
-
-## Completion gate: energy wall
-
-I've replaced the finish marker with a cyan, semi-transparent emissive energy wall using `MAT_FinishGate`. I've created the gate in Unity and attached [FinishGate.cs](Assets/Scripts/FinishGate.cs). The saved gate has a trigger collider and an assigned completion panel containing `CALIBRATION COMPLETE`.
-
-The script hides the panel at startup. When a collider tagged `Player` enters, it records completion, shows the panel, sets `Time.timeScale` to zero, and unlocks and shows the cursor. A flag prevents repeated completion. Startup and destruction restore normal game time. This implements the pause through game time rather than a separate player-input toggle.
-
-I asked Codex to double-check the script before attaching it. The review highlighted that a missing panel reference would still allow the game to pause, and that restoring time affects the whole scene. The gate currently allows completion regardless of the number of calibration pickups collected. I still need to decide whether collecting all three should be required.
-
-The gate and UI are configured in the saved scene, but I haven't recorded a finish-gate Play mode test yet. My next check is entering the gate and observing the panel, player movement, obstacle movement, and cursor. Showing collected data and completion time remains an optional later addition.
-
-## How I'm learning
-
-I write and fix the code myself whenever I can, using AI for explanations, guidance, and a second look when I'm unsure. I work through one concept at a time so I can understand the changes I'm making. When I'm stuck, I ask for a more direct example or help with a specific edit.
-
-I want to be honest about that process. I distinguish between work I do myself, work I do with guidance, and code changes made with direct AI assistance. My goal is to build my understanding alongside the game.
-
-## What comes next
-
-- I'll test traversal and camera visibility in the new lab enclosure, including the revised obstacle positions and texture scale.
-- I'll test the configured energy-wall finish and completion panel. I'll also decide whether reaching the calibration pickup target is required to finish.
-- I'll test and tune the vertical arch movement.
-- I'll test and tune the configured horizontal cone movement.
-- I'll test the revised camera framing and fall recovery, including repeated falls.
-- I'll continue developing the choice between easier and harder routes.
-- Later, I'll decide what player behavior to record and how it should affect a subsequent run.
-
-I'll keep this page and my commit history focused on what changes, why I make those decisions, and what I learn along the way.
+This page reflects my current design and progress. I keep the documentation tied to what is actually in the scene and in the code so the repository stays honest as the project grows.
