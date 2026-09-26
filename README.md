@@ -1,82 +1,66 @@
 # ITERATE
 
-I'm building ITERATE as an eight-week solo Unity 3D platformer. I use this repository to show my progress, share my code, and explain how the project develops as I learn.
+This project is my Unity prototype for a small platformer built around a simple idea: I want a course that feels like a training environment, where a player makes route decisions, learns the hazard patterns, and eventually reaches a clear end state. I’m not building a polished game yet. I’m building a testable prototype and learning from it as I move.
 
-## What I'm building
-
-I'm presenting the level as a machine-learning training environment. The player chooses between safer and riskier routes that eventually merge, and the broader idea is to track behavior and adapt a later run based on that data. The current prototype is not yet fully adaptive, but it is now structured to support decision tracking and route comparison in a way that feels closer to an RL-style training loop.
+I’m using this repository to keep a record of what I’m trying, what I change, and what I learn along the way. The goal is not to hide the rough edges. It’s to make the project readable and honest, especially as I work through Unity and C# on my own.
 
 ## How I work on this project
 
-I make gameplay and code changes myself whenever I can. I use AI as a tutor and reviewer for explanations, hints, questions, and feedback. When I'm unsure, I want help understanding the problem and choosing my next step. Uncertainty alone is not a request to implement the solution.
+I write the code I can myself and I try to understand the problem before I ask for help. I use Codex primarily as a tutor while I learn Unity and C#. I’ll ask it to explain a concept, check my logic, or help me understand why something is behaving differently than I expected.
 
-When I'm stuck, I will ask for a direct demonstration or a specific edit. I want that help focused on what I requested, with an explanation that lets me continue myself. I want relevant files inspected and proposed changes explained before editing. I work through one concept at a time.
+When I get stuck, I want Codex to guide me through the issue so I can understand it and fix it myself. That is the pattern I’m trying to keep: me doing the work, then asking for feedback and explanation, then returning to the code and making the next pass. Sometimes I ask for more direct help on a specific problem, but even then the goal is still learning and understanding, not handing over the design.
 
-I expect appropriate tests after meaningful changes. I want source inspection distinguished from compilation and Play mode results. If testing needs my interaction in Unity, I want to be asked for the relevant observations. I want my existing work preserved, and I do not want routine documentation, Git administration, or verification narrated as AI accomplishments.
+I also use Codex to help keep documentation current, including this README. That means I am being explicit about where the help is useful and where I still need to own the decisions. I’m not claiming I built everything on my own without assistance, and I’m not pretending Codex built the game for me. I’m trying to be accurate about what I wrote, what I changed, and what I asked for help with.
 
-I want the README to explain my concept, completed work, current code, decisions, learning, and next steps. I want AI references limited to learning and code assistance: explanations, double-checking code, and direct help I requested. I want accurate attribution for code changes, and I want completed work clearly separated from plans.
+## What I’m building
 
-## Current progress
+The basic idea is a lab-style obstacle course with route separation. The player has a safe route and a risk route, and those routes eventually point toward the same objective. I want the level to feel like a training loop where I can compare decision-making, timing, and hazard recognition later.
 
-I have a working greybox course with a lab-inspired enclosure, route colors, a calibration loop, hazard behavior, respawn logic, and a finish gate. The level now reads like a test environment rather than a placeholder room, and the scripts are built around the motion and danger patterns I need for the prototype.
+Right now the prototype is not fully adaptive. It is more of a structured environment for route choice and obstacle timing than a complete ML pipeline. But the project is already pointing in that direction. I want the course to be readable as a training space, not just a maze with a few hazards in it.
 
-## The current course
+## What is in the repo right now
 
-The level includes a lab environment, route separation, a moving tube, two moving cones, six collectible data shards total, two laser hazards, a respawn system, and a finish gate. There are three orange-coded shards on the safe route and three orange-coded shards on the risk route, so each path leaves a visible route identity in the collected data. This makes the prototype feel more like a true training environment for machine-learning or reinforcement-learning decision analysis.
+The current layout includes a lab-inspired room, route separation, a moving tube object, two moving cone obstacles, six collectible data shards, two laser hazards, a respawn system, and a finish gate. The safe route and risk route each have three orange shard pickups, so there is a visible distinction between the two paths.
 
-The course uses a `LabEnvironment` with floor, walls, and ceiling, plus separate materials for the neutral route, hard route, and safe route. The saved course also includes a cyan energy gate and associated completion panel. The obstacle layout is now part of the level rather than isolated experiments.
+The scene also includes a cyan energy gate and a completion panel, and the obstacle layout is part of the level instead of being a disconnected test setup. The scripts in the project are clearly organized around movement, hazard behavior, collection, respawn, and progression.
 
-## Script overview
+### Relevant scripts
 
-### Movement and obstacle logic
+- [Assets/Synty/Scripts/MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs): this script stores a start position and applies a sine-wave offset to move an object along a direction vector. In the current course, that is driving the moving tube and the cone motion.
+- [Assets/Scripts/LaserHazard.cs](Assets/Scripts/LaserHazard.cs): this is a trigger-based danger script that checks for the player and calls the respawn flow.
+- [Assets/Synty/Scripts/PlayerRespawn.cs](Assets/Synty/Scripts/PlayerRespawn.cs): this stores the player’s start transform and restores it when the player falls below a threshold.
+- [Assets/Scripts/CalibrationManager.cs](Assets/Scripts/CalibrationManager.cs): this tracks collected route data and updates the UI text.
+- [Assets/Scripts/CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs): this marks a collectible as collected and removes it when the player touches it.
+- [Assets/Scripts/DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs): this adds the motion and visual effect for the data shard pickups.
+- [Assets/Scripts/FinishGate.cs](Assets/Scripts/FinishGate.cs): this triggers level completion and pauses the game when the player reaches the end.
 
-- [Assets/Synty/Scripts/MovingObstacle.cs](Assets/Synty/Scripts/MovingObstacle.cs): copies a saved start position, then applies a sine-wave offset to move along a direction vector. This drives the vertical moving tube and horizontal cone movement.
-- [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs): rotates an object around its own local axis at a configured speed. This is useful for spinning obstacles and hazard geometry.
-- [Assets/Scripts/LaserHazard.cs](Assets/Scripts/LaserHazard.cs): detects a player collider and calls the respawn flow when tagged appropriately.
+There is also a [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs) script in the project. I still have that as a hazard concept, but the current active obstacle layout is not built around a spinning hazard. The moving tube is the obstacle I am currently treating as the main movement-based danger, and the two laser hazards are the hazard objects I am currently using as contact triggers.
 
-### Player flow and systems
+## What is working in the current build
 
-- [Assets/Synty/Scripts/PlayerRespawn.cs](Assets/Synty/Scripts/PlayerRespawn.cs): saves the start position and rotation, then restores the player if they fall below the set threshold.
-- [Assets/Scripts/CalibrationManager.cs](Assets/Scripts/CalibrationManager.cs): keeps a collected-data counter and updates the UI text.
-- [Assets/Scripts/CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs): marks a pickup as collected, informs the manager, and destroys the collectible when the player touches it.
-- [Assets/Scripts/DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs): adds the floating and glitch-style motion to the calibration units.
-- [Assets/Scripts/FinishGate.cs](Assets/Scripts/FinishGate.cs): triggers level completion, shows the completion panel, pauses time, and unlocks the cursor.
+The project currently includes the pieces I need for the loop I want to test:
 
-## Complete systems in the prototype
+- a route-based level layout
+- collectible data shards on both paths
+- a respawn system for falls and repeated trial runs
+- movement-based obstacles that shift the player’s timing
+- laser triggers that punish contact
+- a finish gate that signals completion
 
-### Calibration loop
+I would still describe this as a prototype rather than a fully tuned level. The logic is simple and readable, which is useful to me right now, and the structure is clear enough that I can iterate on it without reworking unnecessary systems.
 
-The calibration system is now working as a route-aware loop: the player collects orange data shards, the manager updates the count, and the route-specific collection adds context for future decision analysis. The safe and risk sides each contain three shards, so the prototype can distinguish which path the player took while still keeping the loop simple and readable. The collectibles remain separate from the animation, which keeps the visual effect distinct from the gameplay logic.
+## What I am still figuring out
 
-### Hazard loop
+I’m still learning how to tune obstacle spacing, movement speed, and hazard placement so the route reads clearly. I want the player to understand the risk and safe options without the course feeling arbitrary or unfair.
 
-The moving platforms and laser hazards are built as simple danger components with clear behavior. The platform obstacles follow a sine-wave offset along their travel path, while the two contact-based laser beams trigger the player respawn. This keeps the hazard logic readable and easy to tune in the Inspector.
+I’m also still deciding how much route data I actually need to record and how explicit I want the training-environment structure to become. The current prototype is enough to support the idea, but I’m not pretending the entire machine-learning layer is already built out.
 
-### Recovery and progression
+The next pass is mostly about refining the prototype instead of rewriting it. I want to test lane timing against the obstacle placement, adjust the motion curves so they feel intentional, and decide whether the finish gate should require all route data before completion. Those are the next design decisions I need to make, not just the next technical tasks.
 
-The player respawn system handles falling out of the course, and the finish gate pauses the game when the player reaches the end. That gives the prototype a clear flow: traverse, collect route-specific data, survive hazards, reach the end, and complete the run.
+## My learning goals
 
-## What I learned
+This is a learning project as much as a game project. I’m trying to get better at Unity level structure, C# scripting, movement patterns, and hazard readability. I want to keep the project honest and explainable, which is one reason I’m writing the README like this instead of pretending it is a perfectly polished progression.
 
-I improved my understanding of several Unity patterns in this build:
+I’m building the course one concept at a time, and I’m keeping the process visible because that is part of what I want this repository to show: not just the final object, but the decisions behind it, the learning that comes with it, and the honest state of the project as it changes.
 
-- A sine-wave offset is a clean way to make an obstacle move back and forth without a rigidbody.
-- Rotation and motion should be separated when I want the object to spin while keeping its path independent.
-- Script logic should stay readable: hazard behavior, collection behavior, and UI/counter behavior each have a distinct responsibility.
-- A respawn system is much more useful when it is simple and consistent, even before I add checkpoints or deeper tracking.
-
-## Current status
-
-The current version of the project is in a testable state. I have updated the obstacle layouts, materials, hazard scripts, route-specific collectible loop, respawn logic, and finish gate, and I have confirmed the behavior in Unity while working through the prototype. The orange-shard setup now supports the prototype's ML/RL direction by making route decisions more legible and more useful for later analysis. I am now at the point where the code, scene, and documentation are aligned enough to commit the project state.
-
-## Next steps
-
-The next improvements are not a rebuild from scratch; they are refinements to the current prototype:
-
-- test traversal timing against the hazard placement
-- tune obstacle speed and spacing for readability and difficulty
-- decide whether the finish gate should require all collected route shards before completion
-- expand the behavioral tracking logic so route choice and run outcome are recorded more explicitly
-- use the next run to evaluate whether the route choice, hazard pacing, and collected data feel intentional for the training-environment concept
-
-This page reflects my current design and progress. I keep the documentation tied to what is actually in the scene and in the code so the repository stays honest as the project grows.
+This is not a claim that I have everything solved. It is just where the project stands right now, and I’m continuing from there.
