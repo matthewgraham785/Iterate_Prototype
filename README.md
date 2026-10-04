@@ -22,7 +22,7 @@ Right now the prototype is not fully adaptive. It is more of a structured enviro
 
 The current layout includes a lab-inspired room, route separation, a moving tube object, two moving cone obstacles, six collectible data shards, two laser hazards, a respawn system, and a finish gate. The safe route and risk route each have three orange shard pickups, so there is a visible distinction between the two paths.
 
-The scene also includes a cyan energy gate and a completion panel, and the obstacle layout is part of the level instead of being a disconnected test setup. The scripts in the project are clearly organized around movement, hazard behavior, collection, respawn, and progression.
+The scene also includes a cyan energy gate and a completion panel, and the obstacle layout is part of the level instead of being a disconnected test setup. The scene also now includes ambient background music to strengthen the training-environment feel, laser feedback on the hazard trigger, and a distinct pickup cue when the data shards are collected. The scripts in the project are clearly organized around movement, hazard behavior, collection, respawn, and progression.
 
 ### Relevant scripts
 
@@ -44,10 +44,18 @@ The project currently includes the pieces I need for the loop I want to test:
 - collectible data shards on both paths
 - a respawn system for falls and repeated trial runs
 - movement-based obstacles that shift the player’s timing
-- laser triggers that punish contact
+- laser triggers that punish contact with audio feedback
+- ambient background music to support the environment and pace
+- a pickup sound for each calibration shard
 - a finish gate that signals completion
 
 I would still describe this as a prototype rather than a fully tuned level. The logic is simple and readable, which is useful to me right now, and the structure is clear enough that I can iterate on it without reworking unnecessary systems.
+
+## Current audio and feedback pass
+
+The most recent pass was not a redesign of the course. It was a focused improvement to how the level feels while I continue iterating on the core prototype. I added a looping background track to give the room more identity, a short laser sound for the hazard trigger feedback, and a pickup cue when the shard is collected.
+
+Those additions matter because they help the player read the space and the action quickly. The prototype still has the same route structure and progression logic, but the sound layer makes the training-environment idea feel more intentional and more complete in motion.
 
 ## What I am still figuring out
 
