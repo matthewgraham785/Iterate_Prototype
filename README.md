@@ -57,6 +57,14 @@ The most recent pass was not a redesign of the course. It was a focused improvem
 
 Those additions matter because they help the player read the space and the action quickly. The prototype still has the same route structure and progression logic, but the sound layer makes the training-environment idea feel more intentional and more complete in motion.
 
+## Current calibration and finish pass
+
+I also expanded the calibration loop to track two separate categories of player data: Stability and Risk. The cyan shards now represent Stability Data, and the orange shards represent Risk Data. The system collects both types independently, displays them in separate HUD lines, and requires a minimum of three total shards before the finish gate will accept the run.
+
+The finish gate now gives a clear warning if the player reaches the end without enough calibration data, and a successful completion screen shows the final Stability and Risk totals. The behavior analysis then classifies the player's route as Stability-focused, Risk-focused, or Balanced. That is useful because the level is now more clearly functioning like a training or routing test rather than just a simple obstacle course.
+
+This is one of the most important prototype steps because it gives the project an actual data and evaluative layer. The run now has a stronger concept behind it and a more readable end state, while still staying lightweight enough that I can keep iterating without overbuilding the system.
+
 ## What I am still figuring out
 
 I’m still learning how to tune obstacle spacing, movement speed, and hazard placement so the route reads clearly. I want the player to understand the risk and safe options without the course feeling arbitrary or unfair.

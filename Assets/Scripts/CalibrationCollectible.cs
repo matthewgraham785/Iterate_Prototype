@@ -1,7 +1,16 @@
 using UnityEngine;
 
+public enum CalibrationDataType
+{
+    Stability,
+    Risk
+}
+
 public class CalibrationCollectible : MonoBehaviour
 {
+    [Header("Data Type")]
+    [SerializeField] private CalibrationDataType dataType;
+
     [Header("Pickup Audio")]
     [SerializeField] private AudioClip pickupSound;
     [SerializeField, Range(0f, 1f)] private float pickupVolume = 0.5f;
@@ -19,7 +28,7 @@ public class CalibrationCollectible : MonoBehaviour
         {
             collected = true;
 
-            CalibrationManager.Instance.CollectData();
+            CalibrationManager.Instance.CollectData(dataType);
 
             if (pickupSound != null)
             {

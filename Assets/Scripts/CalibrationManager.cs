@@ -7,9 +7,22 @@ public class CalibrationManager : MonoBehaviour
 
     [Header("Calibration UI")]
     [SerializeField] private TMP_Text counterText;
-    [SerializeField] private int totalData = 3;
 
-    private int collectedData = 0;
+    [Header("Data Requirements")]
+    [SerializeField] private int totalStabilityData = 2;
+    [SerializeField] private int totalRiskData = 3;
+    [SerializeField] private int requiredDataToFinish = 3;
+
+    private int collectedStabilityData = 0;
+    private int collectedRiskData = 0;
+
+    public int StabilityData => collectedStabilityData;
+    public int RiskData => collectedRiskData;
+    public int TotalCollected =>
+        collectedStabilityData + collectedRiskData;
+
+    public bool HasEnoughData =>
+        TotalCollected >= requiredDataToFinish;
 
     private void Awake()
     {
@@ -17,15 +30,29 @@ public class CalibrationManager : MonoBehaviour
         UpdateCounter();
     }
 
-    public void CollectData()
+    public void CollectData(CalibrationDataType dataType)
     {
-        collectedData++;
+        if (dataType == CalibrationDataType.Stability)
+        {
+            collectedStabilityData++;
+        }
+        else
+        {
+            collectedRiskData++;
+        }
+
         UpdateCounter();
     }
 
     private void UpdateCounter()
     {
+        if (counterText == null)
+        {
+            return;
+        }
+
         counterText.text =
-            $"CALIBRATION DATA: {collectedData} / {totalData}";
+    $"<color=#00FFFF>STABILITY DATA: {collectedStabilityData} / {totalStabilityData}</color>\n" +
+    $"<color=#FF6E14>RISK DATA: {collectedRiskData} / {totalRiskData}</color>";
     }
 }
