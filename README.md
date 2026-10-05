@@ -12,6 +12,8 @@ When I get stuck, I want Codex to guide me through the issue so I can understand
 
 I also use Codex to help keep documentation current, including this README. That means I am being explicit about where the help is useful and where I still need to own the decisions. I’m not claiming I built everything on my own without assistance, and I’m not pretending Codex built the game for me. I’m trying to be accurate about what I wrote, what I changed, and what I asked for help with.
 
+The transparent cyan-and-amber ITERATE calibration emblem in the menu background was created with OpenAI image generation. This attribution applies to that visual asset, not to the project’s gameplay code or design.
+
 ## What I’m building
 
 The basic idea is a lab-style obstacle course with route separation. The player has a safe route and a risk route, and those routes eventually point toward the same objective. I want the level to feel like a training loop where I can compare decision-making, timing, and hazard recognition later.
@@ -20,9 +22,9 @@ Right now the prototype is not fully adaptive. It is more of a structured enviro
 
 ## What is in the repo right now
 
-The current layout includes a lab-inspired room, route separation, a moving tube object, two moving cone obstacles, six collectible data shards, two laser hazards, a respawn system, and a finish gate. The safe route and risk route each have three orange shard pickups, so there is a visible distinction between the two paths.
+The current build uses a separate `MainMenu` scene and the `IterateLevel` gameplay scene. The lab-inspired gameplay course includes a Stability route and a Risk route, moving platforms and animated obstacles, separate Stability and Risk data shards, two rotating laser hazards, player respawning, a tutorial terminal, and a finish gate.
 
-The scene also includes a cyan energy gate and a completion panel, and the obstacle layout is part of the level instead of being a disconnected test setup. The scene also now includes ambient background music to strengthen the training-environment feel, laser feedback on the hazard trigger, and a distinct pickup cue when the data shards are collected. The scripts in the project are clearly organized around movement, hazard behavior, collection, respawn, and progression.
+The gameplay scene includes the completion panel and route-analysis logic. Diegetic and non-diegetic audio, laser feedback, and shard pickup cues support the training-environment feel. The build scene list in `ProjectSettings/EditorBuildSettings.asset` has `Assets/Scenes/MainMenu.unity` first, followed by `Assets/Scenes/IterateLevel.unity`.
 
 ### Relevant scripts
 
@@ -32,27 +34,40 @@ The scene also includes a cyan energy gate and a completion panel, and the obsta
 - [Assets/Scripts/CalibrationManager.cs](Assets/Scripts/CalibrationManager.cs): this tracks collected route data and updates the UI text.
 - [Assets/Scripts/CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs): this marks a collectible as collected and removes it when the player touches it.
 - [Assets/Scripts/DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs): this adds the motion and visual effect for the data shard pickups.
-- [Assets/Scripts/FinishGate.cs](Assets/Scripts/FinishGate.cs): this triggers level completion and pauses the game when the player reaches the end.
+- [Assets/Scripts/FinishGate.cs](Assets/Scripts/FinishGate.cs): this distinguishes an insufficient-data warning from successful completion, reports the Stability and Risk totals, evaluates route preference, and shows completion actions only after a successful run.
 - [Assets/Scripts/TutorialBeaconSpin.cs](Assets/Scripts/TutorialBeaconSpin.cs): this spins the tutorial beacon on multiple axes to visually identify the terminal as interactive.
 - [Assets/Scripts/TutorialTerminal.cs](Assets/Scripts/TutorialTerminal.cs): this script handles the tutorial panel, prompt state changes, and keyboard interaction for the onboarding briefing.
+- [Assets/Scripts/PauseMenu.cs](Assets/Scripts/PauseMenu.cs): this handles Escape, pausing and resuming, restarting the active trial, returning to the MainMenu scene, and quitting.
+- [Assets/Scripts/MainMenuController.cs](Assets/Scripts/MainMenuController.cs): this handles the Begin Calibration and Quit buttons on the main menu.
 
-There is also a [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs) script in the project. I still have that as a hazard concept, but the current active obstacle layout is not built around a spinning hazard. The moving tube is the obstacle I am currently treating as the main movement-based danger, and the two laser hazards are the hazard objects I am currently using as contact triggers.
+There is also an [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs) script for rotating hazards. The current build includes two rotating laser hazards as well as moving obstacles.
 
 ## What is working in the current build
 
-The project currently includes the pieces I need for the loop I want to test:
+ITERATE now has a functional MVP gameplay loop from launch through completion. The current build includes:
 
-- a route-based level layout
-- collectible data shards on both paths
-- a respawn system for falls and repeated trial runs
-- movement-based obstacles that shift the player’s timing
-- laser triggers that punish contact with audio feedback
-- ambient background music to support the environment and pace
-- a pickup sound for each calibration shard
-- a tutorial pedestal and onboarding terminal near the start area
-- a finish gate that signals completion
+- a main menu and a separate onboarding tutorial
+- player movement and camera controls
+- Easy/Stability and hard/Risk routes
+- separate Stability and Risk collectibles with route-specific HUD tracking
+- moving platforms and animated obstacles
+- two rotating laser hazards and player respawning
+- diegetic and non-diegetic audio
+- pause, restart, quit, and Main Menu navigation
+- a minimum calibration-data requirement and end-of-level behavior analysis
+- complete scene navigation from beginning to end
 
-I would still describe this as a prototype rather than a fully tuned level. The logic is simple and readable, which is useful to me right now, and the structure is clear enough that I can iterate on it without reworking unnecessary systems.
+The course is now connected to its start menu, tutorial, calibration, and completion flow rather than being only a collection of individual systems. The MVP loop is functional; its presentation and difficulty still need selective polish.
+
+## Main menu, pause, and completion flow
+
+The saved menu scene is `Assets/Scenes/MainMenu.unity`, and the gameplay scene is `Assets/Scenes/IterateLevel.unity`. Both are enabled in the Unity build scene list, with `MainMenu` loading first. The menu presents “ITERATE” and “ADAPTATION THROUGH ITERATION,” with Begin Calibration loading the gameplay scene and Quit exiting the game or stopping Play mode in the Editor. A separate looping 2D Audio Source plays the menu music, and the background uses the transparent cyan-and-amber calibration emblem. Its dark laboratory interface keeps the established cyan Stability and amber Risk colors.
+
+In gameplay, Escape opens the pause menu, which stops time with `Time.timeScale` and makes the cursor visible and unlocked. Escape or Resume returns to play. Restart Trial reloads the active gameplay scene, Main Menu loads `MainMenu`, and Quit exits a standalone build or stops Editor Play mode. The pause menu does not open when another system has already paused gameplay, so it does not overlap the tutorial or successful completion screen.
+
+At the finish, fewer than three collected shards produce a temporary insufficient-data warning that disappears without pausing the run. With enough data, the completion screen shows the Stability and Risk totals and evaluates the route preference. Restart Trial and Main Menu actions are shown only for successful completion. Returning to the menu restores normal time scale, and menu music transitions to gameplay audio when the gameplay scene loads.
+
+The confirmed route is Main Menu → Begin Calibration → tutorial → gameplay → finish analysis → restart or return to Main Menu. Restarting resets the collected shard data. The tutorial beacon continues to rotate, and cursor behavior works across the menu, gameplay, pause, tutorial, and completion states. The final end-to-end Unity test completed without red Console errors.
 
 ## Current onboarding and tutorial pass
 
@@ -76,17 +91,27 @@ The finish gate now gives a clear warning if the player reaches the end without 
 
 This is one of the most important prototype steps because it gives the project an actual data and evaluative layer. The run now has a stronger concept behind it and a more readable end state, while still staying lightweight enough that I can keep iterating without overbuilding the system.
 
-## Current tutorial testing note
+## Current tutorial and flow testing note
 
-I have added a concise test note for this onboarding pass. The current iteration is expected to show the starting movement prompt, change the prompt when the player enters the terminal trigger, open and close the briefing with E, pause gameplay while the briefing is displayed, and resume afterward once the panel is closed. The tutorial panel is also expected to display the control and objective information in a readable format.
+The complete beginning-to-end flow has been confirmed in Unity, including tutorial onboarding, gameplay, finish analysis, restarting the trial, and returning to the main menu. The insufficient-data warning was confirmed to disappear after a short delay without stopping gameplay, and restarting was confirmed to reset collected shard data. The tutorial beacon still rotates, audio changes from menu music to gameplay audio, and cursor behavior works across the menu, gameplay, pause, tutorial, and completion states. The final end-to-end test had no red Console errors.
+
+## Remaining polish
+
+The MVP loop is functional, but I still want to:
+
+- refine the menu, tutorial, pause, and completion-panel layouts
+- add laser warning lights or other visual/audio warning feedback
+- continue balancing obstacle difficulty
+- improve minor camera-framing issues if time permits
+- test a standalone Windows build
+- capture final screenshots and gameplay footage
+- make only selective environmental and visual improvements that do not risk breaking the MVP
 
 ## What I am still figuring out
 
-I’m still learning how to tune obstacle spacing, movement speed, and hazard placement so the route reads clearly. I want the player to understand the risk and safe options without the course feeling arbitrary or unfair.
+I’m continuing to learn how obstacle spacing, movement speed, and hazard feedback affect whether the route feels readable and fair. My next learning step is to explain the sine offset used for obstacle motion, write down what I predict it will do, and compare that prediction with the behavior in Unity.
 
-I’m also still deciding how much route data I actually need to record and how explicit I want the training-environment structure to become. The current prototype is enough to support the idea, but I’m not pretending the entire machine-learning layer is already built out.
-
-The next pass is mostly about refining the prototype instead of rewriting it. I want to test lane timing against the obstacle placement, adjust the motion curves so they feel intentional, and decide whether the finish gate should require all route data before completion. Those are the next design decisions I need to make, not just the next technical tasks.
+The current calibration requirement is a minimum of three shards, and the finish analysis evaluates Stability and Risk totals. The full machine-learning adaptation layer remains a future direction rather than a completed feature.
 
 ## My learning goals
 

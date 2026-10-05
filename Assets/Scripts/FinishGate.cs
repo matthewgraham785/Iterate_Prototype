@@ -7,26 +7,32 @@ public class FinishGate : MonoBehaviour
     [Header("Completion UI")]
     [SerializeField] private GameObject completionPanel;
     [SerializeField] private TMP_Text completionText;
+    [SerializeField] private GameObject completionActions;
     [SerializeField] private float warningDuration = 2.5f;
 
     private bool levelCompleted = false;
     private Coroutine warningCoroutine;
 
     private void Start()
-{
-    Time.timeScale = 1f;
-
-    if (completionText == null && completionPanel != null)
     {
-        completionText =
-            completionPanel.GetComponentInChildren<TMP_Text>(true);
-    }
+        Time.timeScale = 1f;
 
-    if (completionPanel != null)
-    {
-        completionPanel.SetActive(false);
+        if (completionText == null && completionPanel != null)
+        {
+            completionText =
+                completionPanel.GetComponentInChildren<TMP_Text>(true);
+        }
+
+        if (completionActions != null)
+        {
+            completionActions.SetActive(false);
+        }
+
+        if (completionPanel != null)
+        {
+            completionPanel.SetActive(false);
+        }
     }
-}
 
     private void OnTriggerEnter(Collider other)
     {
@@ -37,7 +43,10 @@ public class FinishGate : MonoBehaviour
 
         if (CalibrationManager.Instance == null)
         {
-            Debug.LogWarning("FinishGate could not find the CalibrationManager.");
+            Debug.LogWarning(
+                "FinishGate could not find the CalibrationManager."
+            );
+
             return;
         }
 
@@ -55,6 +64,11 @@ public class FinishGate : MonoBehaviour
         if (completionPanel == null || completionText == null)
         {
             return;
+        }
+
+        if (completionActions != null)
+        {
+            completionActions.SetActive(false);
         }
 
         completionText.text =
@@ -111,6 +125,11 @@ public class FinishGate : MonoBehaviour
                 analysis + "\n\n" +
                 $"STABILITY DATA: {stability}\n" +
                 $"RISK DATA: {risk}";
+        }
+
+        if (completionActions != null)
+        {
+            completionActions.SetActive(true);
         }
 
         if (completionPanel != null)
