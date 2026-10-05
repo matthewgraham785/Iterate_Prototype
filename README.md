@@ -33,6 +33,8 @@ The scene also includes a cyan energy gate and a completion panel, and the obsta
 - [Assets/Scripts/CalibrationCollectible.cs](Assets/Scripts/CalibrationCollectible.cs): this marks a collectible as collected and removes it when the player touches it.
 - [Assets/Scripts/DataShardAnimation.cs](Assets/Scripts/DataShardAnimation.cs): this adds the motion and visual effect for the data shard pickups.
 - [Assets/Scripts/FinishGate.cs](Assets/Scripts/FinishGate.cs): this triggers level completion and pauses the game when the player reaches the end.
+- [Assets/Scripts/TutorialBeaconSpin.cs](Assets/Scripts/TutorialBeaconSpin.cs): this spins the tutorial beacon on multiple axes to visually identify the terminal as interactive.
+- [Assets/Scripts/TutorialTerminal.cs](Assets/Scripts/TutorialTerminal.cs): this script handles the tutorial panel, prompt state changes, and keyboard interaction for the onboarding briefing.
 
 There is also a [Assets/Scripts/RotatingHazard.cs](Assets/Scripts/RotatingHazard.cs) script in the project. I still have that as a hazard concept, but the current active obstacle layout is not built around a spinning hazard. The moving tube is the obstacle I am currently treating as the main movement-based danger, and the two laser hazards are the hazard objects I am currently using as contact triggers.
 
@@ -47,9 +49,18 @@ The project currently includes the pieces I need for the loop I want to test:
 - laser triggers that punish contact with audio feedback
 - ambient background music to support the environment and pace
 - a pickup sound for each calibration shard
+- a tutorial pedestal and onboarding terminal near the start area
 - a finish gate that signals completion
 
 I would still describe this as a prototype rather than a fully tuned level. The logic is simple and readable, which is useful to me right now, and the structure is clear enough that I can iterate on it without reworking unnecessary systems.
+
+## Current onboarding and tutorial pass
+
+I added a small onboarding system at the start of the course so the player can understand the basic controls before moving into the route. A waist-height tutorial pedestal sits near the start area, built from simple geometric shapes to match the laboratory environment. It includes a glowing dark-amber beacon with a custom emissive material, and the beacon rotates continuously to make the terminal clearly readable as interactive.
+
+The tutorial system is built around a separate invisible trigger object with a Box Collider set as a trigger. When the player approaches the pedestal, the initial HUD prompt teaches the basics of movement and points the player toward the amber terminal. Once inside the trigger, the prompt changes to “PRESS E TO ACCESS TRIAL BRIEFING.” Pressing E opens a briefing panel that pauses gameplay and explains movement, camera control, jumping, sprinting, Stability Data, Risk Data, the three-shard requirement, and the objective of reaching the exit for analysis. Pressing E again closes the panel and resumes gameplay.
+
+The tutorial UI keeps amber accents to match the terminal, uses cyan for Stability Data, and uses orange for Risk Data. The panel is functional and readable, even if I expect to do additional visual polish later. The purpose of this pass is to make the prototype easier to understand without turning the tutorial into a full polished onboarding sequence.
 
 ## Current audio and feedback pass
 
@@ -64,6 +75,10 @@ I also expanded the calibration loop to track two separate categories of player 
 The finish gate now gives a clear warning if the player reaches the end without enough calibration data, and a successful completion screen shows the final Stability and Risk totals. The behavior analysis then classifies the player's route as Stability-focused, Risk-focused, or Balanced. That is useful because the level is now more clearly functioning like a training or routing test rather than just a simple obstacle course.
 
 This is one of the most important prototype steps because it gives the project an actual data and evaluative layer. The run now has a stronger concept behind it and a more readable end state, while still staying lightweight enough that I can keep iterating without overbuilding the system.
+
+## Current tutorial testing note
+
+I have added a concise test note for this onboarding pass. The current iteration is expected to show the starting movement prompt, change the prompt when the player enters the terminal trigger, open and close the briefing with E, pause gameplay while the briefing is displayed, and resume afterward once the panel is closed. The tutorial panel is also expected to display the control and objective information in a readable format.
 
 ## What I am still figuring out
 
