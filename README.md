@@ -14,6 +14,12 @@ I also use Codex to help keep documentation current, including this README. That
 
 The transparent cyan-and-amber ITERATE calibration emblem in the menu background was created with OpenAI image generation. This attribution applies to that visual asset, not to the project’s gameplay code or design.
 
+## Current repository check - 2026-10-10
+
+I checked the working tree against the current prototype state and the project is still centered on the menu-to-finish loop: Main Menu → tutorial → gameplay → route analysis → restart or return to the menu. The most visible additions in the scene set are the result-room scenes `Assets/Scenes/EasyResultRoom.unity` and `Assets/Scenes/HardResultRoom.unity`, which suggest a more explicit route outcome screen beyond the main gameplay loop. I’m treating those as part of the current prototype direction, but not as a final polished finish-state yet.
+
+I also confirmed that there are Unity-generated recovery files under `Assets/_Recovery` and some editor-level material and package changes in the project. Those are not core gameplay logic, so I am keeping the documentation focused on the playable prototype, the data route system, and the observable gameplay loop rather than on editor recovery artifacts.
+
 ## What I’m building
 
 The basic idea is a lab-style obstacle course with route separation. The player has a safe route and a risk route, and those routes eventually point toward the same objective. I want the level to feel like a training loop where I can compare decision-making, timing, and hazard recognition later.
