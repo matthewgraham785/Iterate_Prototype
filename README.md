@@ -119,14 +119,16 @@ The sound layer supports the game’s lab-and-training theme and makes the hazar
 
 ## Pause menu and completion actions
 
-The pause system is handled by `Assets/Scripts/PauseMenu.cs`, which allows the player to:
+The pause system is handled by `Assets/Scripts/PauseMenu.cs`, and it is now functional in all three playable scenes: the original calibration level, `EasyResultRoom`, and `HardResultRoom`. The menu allows the player to:
 
 - resume the run
 - restart the current trial
 - return to the main menu
 - quit the game
 
-The pause menu uses the standard Escape input pattern and temporarily unlocks the cursor so the player can interact with the menu. The result rooms also include action buttons for retrying the room and returning to the main menu.
+The pause menu uses the standard Escape input pattern and temporarily unlocks the cursor so the player can interact with the menu. The same pause flow remains consistent across the main gameplay loop and the two result rooms.
+
+The Easy and Hard result-room completion panels are also working. Each result room includes a completion screen with navigation buttons for restarting the room and returning to the main menu, and those buttons are functional in the current prototype.
 
 ## Project structure and key scripts
 
@@ -146,7 +148,7 @@ Core scripts in the project include:
 
 ## Current project summary
 
-The current iteration of ITERATE is a complete prototype rather than a placeholder build. It contains a full starting menu, a tutorial briefing, collectible route data, a branching finish gate, separate easy and hard result scenes, hazard and respawn systems, audio feedback, and working navigation across the complete run. The prototype is intentionally focused on readability, route evaluation, and learning rather than on a broad feature set beyond the current training-environment loop.
+The current iteration of ITERATE is a complete prototype rather than a placeholder build. It contains a full starting menu, a tutorial briefing, collectible route data, a branching finish gate, separate easy and hard result scenes, hazard and respawn systems, audio feedback, pause-menu support across all playable scenes, and working result-room completion navigation. The prototype is intentionally focused on readability, route evaluation, and learning rather than on a broad feature set beyond the current training-environment loop.
 
 ## Development note
 
