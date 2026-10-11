@@ -14,5 +14,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/IterateLevel.unity
     guid: 51d3a852c44214a4dbcc98f78366a788
+  - enabled: 1
+    path: Assets/Scenes/EasyResultRoom.unity
+    guid: 1dac476b8ddd84f4fb2d954f256b7e4a
+  - enabled: 1
+    path: Assets/Scenes/HardResultRoom.unity
+    guid: a346d964e401ed245b0f46ef949af725
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

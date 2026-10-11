@@ -1,14 +1,19 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class FinishGate : MonoBehaviour
 {
-    [Header("Completion UI")]
+    [Header("Warning UI")]
     [SerializeField] private GameObject completionPanel;
     [SerializeField] private TMP_Text completionText;
     [SerializeField] private GameObject completionActions;
     [SerializeField] private float warningDuration = 2.5f;
+
+    [Header("Result Rooms")]
+    [SerializeField] private string easyRoomSceneName = "EasyResultRoom";
+    [SerializeField] private string hardRoomSceneName = "HardResultRoom";
 
     private bool levelCompleted = false;
     private Coroutine warningCoroutine;
@@ -56,13 +61,17 @@ public class FinishGate : MonoBehaviour
             return;
         }
 
-        CompleteLevel();
+        LoadResultRoom();
     }
 
     private void ShowIncompleteWarning()
     {
         if (completionPanel == null || completionText == null)
         {
+            Debug.LogWarning(
+                "FinishGate is missing its warning panel or warning text."
+            );
+
             return;
         }
 
@@ -89,57 +98,30 @@ public class FinishGate : MonoBehaviour
     {
         yield return new WaitForSeconds(warningDuration);
 
-        completionPanel.SetActive(false);
+        if (completionPanel != null)
+        {
+            completionPanel.SetActive(false);
+        }
+
         warningCoroutine = null;
     }
 
-    private void CompleteLevel()
+    private void LoadResultRoom()
     {
         levelCompleted = true;
+        Time.timeScale = 1f;
 
-        int stability = CalibrationManager.Instance.StabilityData;
-        int risk = CalibrationManager.Instance.RiskData;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
-        string analysis;
-
-        if (stability > risk)
+        if (CalibrationManager.Instance.HasAllData)
         {
-            analysis =
-                "<color=#00FFFF>STABILITY PREFERENCE DETECTED</color>";
-        }
-        else if (risk > stability)
-        {
-            analysis =
-                "<color=#FF6E14>RISK PREFERENCE DETECTED</color>";
+            SceneManager.LoadScene(hardRoomSceneName);
         }
         else
         {
-            analysis =
-                "<color=#FFFFFF>BALANCED BEHAVIOR DETECTED</color>";
+            SceneManager.LoadScene(easyRoomSceneName);
         }
-
-        if (completionText != null)
-        {
-            completionText.text =
-                "CALIBRATION COMPLETE\n\n" +
-                analysis + "\n\n" +
-                $"STABILITY DATA: {stability}\n" +
-                $"RISK DATA: {risk}";
-        }
-
-        if (completionActions != null)
-        {
-            completionActions.SetActive(true);
-        }
-
-        if (completionPanel != null)
-        {
-            completionPanel.SetActive(true);
-        }
-
-        Time.timeScale = 0f;
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
     }
 
     private void OnDestroy()

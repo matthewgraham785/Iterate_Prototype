@@ -9,7 +9,7 @@ public class CalibrationManager : MonoBehaviour
     [SerializeField] private TMP_Text counterText;
 
     [Header("Data Requirements")]
-    [SerializeField] private int totalStabilityData = 2;
+    [SerializeField] private int totalStabilityData = 3;
     [SerializeField] private int totalRiskData = 3;
     [SerializeField] private int requiredDataToFinish = 3;
 
@@ -18,11 +18,16 @@ public class CalibrationManager : MonoBehaviour
 
     public int StabilityData => collectedStabilityData;
     public int RiskData => collectedRiskData;
+
     public int TotalCollected =>
         collectedStabilityData + collectedRiskData;
 
     public bool HasEnoughData =>
         TotalCollected >= requiredDataToFinish;
+
+    public bool HasAllData =>
+        collectedStabilityData >= totalStabilityData &&
+        collectedRiskData >= totalRiskData;
 
     private void Awake()
     {
@@ -36,7 +41,7 @@ public class CalibrationManager : MonoBehaviour
         {
             collectedStabilityData++;
         }
-        else
+        else if (dataType == CalibrationDataType.Risk)
         {
             collectedRiskData++;
         }
@@ -52,7 +57,7 @@ public class CalibrationManager : MonoBehaviour
         }
 
         counterText.text =
-    $"<color=#00FFFF>STABILITY DATA: {collectedStabilityData} / {totalStabilityData}</color>\n" +
-    $"<color=#FF6E14>RISK DATA: {collectedRiskData} / {totalRiskData}</color>";
+            $"<color=#00FFFF>STABILITY DATA: {collectedStabilityData} / {totalStabilityData}</color>\n" +
+            $"<color=#FF6E14>RISK DATA: {collectedRiskData} / {totalRiskData}</color>";
     }
 }
